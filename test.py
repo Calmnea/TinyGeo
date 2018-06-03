@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import division
 
 from tinygeo import Point, Segment, Polygon
+from tinygeo import MBR, GetMBR
 from tinygeo.algorithm import Distance, PosRelation
 
 p1 = Point(1, 1)
@@ -23,3 +24,6 @@ print(Distance(p3, s1.toStraight()))
 
 print(PosRelation(p1, p2))
 # output: depach
+
+mbr = GetMBR(s1)
+print(mbr)
