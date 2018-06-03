@@ -73,14 +73,39 @@ class Straight(object):
     @property
     def A(self):
         return self._A
+
+    @A.setter
+    def A(self, value):
+        if not _isNum(value):
+            raise TypeError
+        if _isZero(self._B) and _isZero(value):
+            raise ValueError
+        self._A = value
+        self._modify = True
     
     @property
     def B(self):
         return self._B
+    
+    @B.setter
+    def B(self, value):
+        if not _isNum(value):
+            raise TypeError
+        if _isZero(self._A) and _isZero(value):
+            raise ValueError
+        self._B = value
+        self._modify = True
 
     @property
     def C(self):
         return self._C
+    
+    @C.setter
+    def C(self, value):
+        if not _isNum(value):
+            raise TypeError
+        self._C = value
+        self._modify = True
 
     @property
     def slope(self):
@@ -145,7 +170,7 @@ class Segment(object):
 
     def toStraight(self):
         A = self._p2.y - self._p1.y
-        B = self._p2.x - self._p1.x
+        B = self._p1.x - self._p2.x
         C = self._p1.y * self._p2.x - self._p1.x * self._p2.y
         return Straight(A, B, C)
 

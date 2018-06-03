@@ -17,10 +17,12 @@ def _distance_point_to_point(p1, p2):
 # Distance of Point and Straight
 def _distance_point_to_straight(p, st):
     numerator = st.A * p.x + st.B * p.y + st.C
-    denominator = math.sqrt(st.A ** 2 + st.B ** 2)
+    denominator = math.sqrt(st.A**2 + st.B**2)
     return abs(numerator / denominator)
 
+
 # TODO more geometry
+
 
 # API: Distance of two geometry
 def Distance(g1, g2):
@@ -33,4 +35,3 @@ def Distance(g1, g2):
     # TODO elif
     else:
         raise TypeError
-
