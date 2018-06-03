@@ -74,9 +74,30 @@ class MBR(object):
         if p.y > self._ru.y:
             self._ru.y = p.y
 
+    def expand(self, other):
+        if not isinstance(other, MBR):
+            raise TypeError
+        if self._ll.x > other.ll.x:
+            self._ll.x = other.ll.x
+        if self._ll.y > other.ll.y:
+            self._ll.y = other.ll.y
+        if self._ru.x < other.ru.x:
+            self._ru.x = other.ru.x
+        if self._ru.y < other.ru.y:
+            self._ru.y = other.ru.y
+
+    def __add__(self, other):
+        if not isinstance(other, MBR):
+            raise TypeError
+        left = min(self.left(), other.left())
+        right = max(self.right(), other.right())
+        top = max(self.top(), other.top())
+        bottom = min(self.bottom(), other.bottom())
+        return MBR(Point(left, bottom), Point(right, top))
+
     def __repr__(self):
-        return "MBR(%s, %s, %s, %s)" % (self._ll.x, self._ll.y, self._ru.x,
-                                        self._ru.y)
+        return "MBR(%s, %s, %s, %s)" % (
+            self._ll.x, self._ll.y, self._ru.x, self._ru.y)
 
 
 def _get_mbr_point(p):
