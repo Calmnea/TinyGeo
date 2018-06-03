@@ -3,6 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 import math
+from copy import deepcopy
 from tinygeo.constant import MATH
 
 _isZero = lambda x: abs(x) < MATH.PRECISION
@@ -121,8 +122,8 @@ class Segment(object):
     def __init__(self, p1, p2):
         if not (isinstance(p1, Point) and isinstance(p2, Point)):
             raise TypeError
-        self._p1 = p1
-        self._p2 = p2
+        self._p1 = deepcopy(p1)
+        self._p2 = deepcopy(p2)
         self._length = 0.
         self._slope = None
         self._modify_l = True  # modify flag for length
@@ -192,7 +193,9 @@ class Line(object):
         self._length = 0.
         self._modify = True
 
-    # TODO property points
+    @property
+    def points(self):
+        return self._points
 
     @property
     def length(self):
@@ -236,7 +239,9 @@ class Polygon(object):
     def size(self):
         return len(self._points)
 
-    # TODO property points
+    @property
+    def points(self):
+        return self._points
 
     @property
     def perimeter(self):
