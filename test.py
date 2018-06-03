@@ -5,6 +5,7 @@ from __future__ import division
 from tinygeo import Point, Segment, Polygon
 from tinygeo import MBR, GetMBR
 from tinygeo.algorithm import Distance, PosRelation
+from tinygeo.display import GeoViewer
 
 p1 = Point(1, 1)
 p2 = Point(2, 1)
@@ -27,3 +28,10 @@ print(PosRelation(p1, p2))
 
 mbr = GetMBR(s1)
 print(mbr)
+
+viewer = GeoViewer()
+viewer.draw(p1)
+viewer.draw(p2)
+viewer.draw(s1, color='red')
+viewer.draw(poly1)
+viewer.show()
