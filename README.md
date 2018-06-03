@@ -1,15 +1,13 @@
 # TinyGeo
 
-**轻量级Python几何图形库**
+***轻量级Python几何图形库***
 
 该工具包目标用于快速实现平面空间下的小型建模和几何计算，封装了常用的几何算法，包括几何元素的属性计算，位置空间判断、平滑及抽吸等。
 
----
-
-### 安装
+## 安装
 ...
 
-### 快速开始
+## 快速开始
 ``` python
 from tinygeo import Point, Segment, Polygon
 from tinygeo.algorithm import Distance, PosRelation
