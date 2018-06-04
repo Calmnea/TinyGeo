@@ -4,9 +4,8 @@ from __future__ import print_function
 
 import math
 from copy import deepcopy
-from tinygeo.constant import MATH
+from tinygeo.constant import MATH, isZero
 
-_isZero = lambda x: abs(x) < MATH.PRECISION
 _isNum = lambda x: isinstance(x, (int, float))
 
 
@@ -41,7 +40,7 @@ class Point(object):
         return "Point(%s, %s)" % (self._x, self._y)
 
     def __eq__(self, other):
-        return _isZero(self._x - other.x) and _isZero(self._y - other.y)
+        return isZero(self._x - other.x) and isZero(self._y - other.y)
 
     def __add__(self, other):
         return Point(self._x + other.x, self._y + other.y)
@@ -62,7 +61,7 @@ class Straight(object):
     def __init__(self, A, B, C):
         if not (_isNum(A) and _isNum(B) and _isNum(C)):
             raise TypeError
-        if _isZero(A) and _isZero(B):
+        if isZero(A) and isZero(B):
             raise ValueError
         self._A = A
         self._B = B
@@ -79,20 +78,20 @@ class Straight(object):
     def A(self, value):
         if not _isNum(value):
             raise TypeError
-        if _isZero(self._B) and _isZero(value):
+        if isZero(self._B) and isZero(value):
             raise ValueError
         self._A = value
         self._modify = True
-    
+
     @property
     def B(self):
         return self._B
-    
+
     @B.setter
     def B(self, value):
         if not _isNum(value):
             raise TypeError
-        if _isZero(self._A) and _isZero(value):
+        if isZero(self._A) and isZero(value):
             raise ValueError
         self._B = value
         self._modify = True
@@ -100,7 +99,7 @@ class Straight(object):
     @property
     def C(self):
         return self._C
-    
+
     @C.setter
     def C(self, value):
         if not _isNum(value):
@@ -111,11 +110,21 @@ class Straight(object):
     @property
     def slope(self):
         if self._modify:
-            if _isZero(self._B):
+            if isZero(self._B):
                 self._slope = MATH.NaN
             else:
                 self._slope = -self._A / self._B
         return self._slope
+
+    def toSegment(self, x1, x2):
+        if isZero(self._B):
+            y1, y2 = x1, x2
+            _x = -(self._C / self._A)
+            return Segment(Point(_x, y1), Point(_x, y2))
+        else:
+            p1 = Point(x1, -(self._A * x1 + self._C) / self._B)
+            p2 = Point(x2, -(self._A * x2 + self._C) / self._B)
+            return Segment(p1, p2)
 
 
 class Segment(object):
@@ -161,7 +170,7 @@ class Segment(object):
     @property
     def slope(self):
         if self._modify_s:
-            if _isZero(self._p1.x - self._p2.x):
+            if isZero(self._p1.x - self._p2.x):
                 self._slope = None
             else:
                 self._slope = math.atan(
@@ -302,8 +311,8 @@ if __name__ == "__main__":
     assert (str(p1 + p2) == 'Point(4, 6)')
     assert (str(p1 - p2) == 'Point(-2, -2)')
     assert (str(p1 * 2) == 'Point(2, 4)')
-    assert (_isZero(s1.length - math.sqrt(8)))
-    assert (_isZero(l1.length - math.sqrt(8) * 2))
+    assert (isZero(s1.length - math.sqrt(8)))
+    assert (isZero(l1.length - math.sqrt(8) * 2))
     assert (l1.size() == 3)
     assert (l2.toSegments()[0].length == s1.length)
     assert (poly1.perimeter == 4)
