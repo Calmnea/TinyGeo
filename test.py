@@ -2,7 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
 
-from tinygeo import Point, Segment, Polygon
+from tinygeo import Point, Segment, Polygon, Vector
 from tinygeo import MBR, GetMBR
 from tinygeo.algorithm import Distance, PosRelation
 from tinygeo.display import GeoViewer
@@ -13,6 +13,8 @@ p3 = Point(2, 2)
 p4 = Point(1, 2)
 s1 = Segment(p1, p2)
 poly1 = Polygon([p1, p2, p3, p4])
+
+vec1 = Vector(p2.x - p1.x, p2.y - p1.y)
 
 print(s1.length, s1.slope)
 # output: 1.0 0.0
@@ -25,6 +27,8 @@ print(Distance(p3, s1.toStraight()))
 
 print(PosRelation(p1, p2))
 # output: depach
+
+print(vec1)
 
 mbr = GetMBR(s1)
 print(mbr)

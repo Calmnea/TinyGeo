@@ -69,7 +69,6 @@ class Straight(object):
         self._slope = None
         self._modify = True
 
-    # TODO setter A, B, C
     @property
     def A(self):
         return self._A
@@ -190,6 +189,55 @@ class Segment(object):
     def _modify(self):
         self._modify_l = True
         self._modify_s = True
+
+
+class Vector(object):
+    ''' form of expression: v = x*i + y*j'''
+
+    def __init__(self, x, y):
+        if not (_isNum(x) and _isNum(y)):
+            raise TypeError
+        self._x = x
+        self._y = y
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        if not _isNum(value):
+            raise TypeError
+        self._x = value
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        if not _isNum(value):
+            raise TypeError
+        self._y = value
+
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Vector(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other):
+        ''' The inner product of two vectors '''
+        return Vector(self.x * other.x, self.y * other.y)
+
+    def mul(self, obj):
+        if _isNum(obj):
+            return self.x * obj + self.y * obj
+        elif isinstance(obj, Vector):
+            return self.__mul__(obj)
+
+    def __repr__(self):
+        return "Vector(%s_i + %s_j)" % (self._x, self._y)
 
 
 class Line(object):
