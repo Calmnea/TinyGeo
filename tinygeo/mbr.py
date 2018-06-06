@@ -86,6 +86,18 @@ class MBR(object):
         if self._ru.y < other.ru.y:
             self._ru.y = other.ru.y
 
+    def contain(self, other):
+        ''' this mbr surround other '''
+        if not isinstance(other, MBR):
+            raise TypeError
+        if (self.top() > other.top() and
+            self.bottom() < other.bottom() and
+            self.left() < other.left() and
+            self.right() > other.right()):
+            return True
+        else:
+            return False
+
     def __add__(self, other):
         if not isinstance(other, MBR):
             raise TypeError
