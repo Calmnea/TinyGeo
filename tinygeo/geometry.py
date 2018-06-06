@@ -113,6 +113,7 @@ class Straight(object):
                 self._slope = MATH.NaN
             else:
                 self._slope = -self._A / self._B
+            self._modify = False
         return self._slope
 
     def toSegment(self, x1, x2):
@@ -199,6 +200,8 @@ class Vector(object):
             raise TypeError
         self._x = x
         self._y = y
+        self._len = 0
+        self._modify = True
 
     @property
     def x(self):
@@ -209,6 +212,7 @@ class Vector(object):
         if not _isNum(value):
             raise TypeError
         self._x = value
+        self._modify = True
 
     @property
     def y(self):
@@ -219,6 +223,7 @@ class Vector(object):
         if not _isNum(value):
             raise TypeError
         self._y = value
+        self._modify = True
 
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
@@ -238,6 +243,13 @@ class Vector(object):
 
     def __repr__(self):
         return "Vector(%s_i + %s_j)" % (self._x, self._y)
+
+    @property
+    def len(self):
+        if self._modify:
+            self._len = math.sqrt(self.x ** 2 + self.y ** 2)
+            self._modify = False
+        return self._len
 
 
 class Line(object):
