@@ -21,5 +21,7 @@ POSITION_TYPE.INTERSECT = 'intersect'
 POSITION_TYPE.CONTAIN = 'contain'
 POSITION_TYPE.DEPACH = 'depach'
 POSITION_TYPE.PARALLEL = 'parallel'
+POSITION_TYPE.OVERLAP = 'overlap'
+POSITION_TYPE.BE_CONTAINED = 'be-contained'
 
 isZero = lambda x: abs(x) < MATH.PRECISION
